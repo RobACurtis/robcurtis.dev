@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  /* Terminal mode (default) */
+  :root,
+  [data-aesthetic="terminal"] {
+    --background: 220 16% 8%;
+    --foreground: 120 40% 68%;
+    --card: 220 16% 11%;
+    --card-foreground: 120 40% 68%;
+    --popover: 220 16% 11%;
+    --popover-foreground: 120 40% 68%;
+    --primary: 120 40% 60%;
+    --primary-foreground: 220 16% 8%;
+    --secondary: 220 14% 14%;
+    --secondary-foreground: 120 30% 55%;
+    --muted: 220 14% 16%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 36 90% 55%;
+    --accent-foreground: 220 16% 8%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 14% 18%;
+    --input: 220 14% 18%;
+    --ring: 120 40% 60%;
+    --radius: 0.5rem;
+    --chart-1: 120 40% 60%;
+    --chart-2: 36 90% 55%;
+    --chart-3: 197 37% 50%;
+    --chart-4: 0 72% 51%;
+    --chart-5: 280 50% 60%;
+    --sidebar-background: 220 16% 8%;
+    --sidebar-foreground: 120 40% 68%;
+    --sidebar-primary: 120 40% 60%;
+    --sidebar-primary-foreground: 220 16% 8%;
+    --sidebar-accent: 220 14% 14%;
+    --sidebar-accent-foreground: 120 40% 68%;
+    --sidebar-border: 220 14% 18%;
+    --sidebar-ring: 120 40% 60%;
+  }
+
+  /* Basic mode - softer light theme */
+  [data-aesthetic="basic"] {
+    --background: 220 20% 96%;
+    --foreground: 220 20% 20%;
+    --card: 220 20% 99%;
+    --card-foreground: 220 20% 20%;
+    --popover: 220 20% 99%;
+    --popover-foreground: 220 20% 20%;
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 20% 25%;
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 220 70% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Subtle dot pattern for basic mode */
+[data-aesthetic="basic"] {
+  background-image: radial-gradient(hsl(220 15% 80%) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Blinking cursor - terminal mode only */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+[data-aesthetic="terminal"] .animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+[data-aesthetic="basic"] .animate-blink {
+  animation: none;
+  opacity: 0;
+}
+
+/* Typewriter */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Scanline effect - terminal mode only */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+[data-aesthetic="terminal"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to bottom, transparent, hsl(120 40% 60% / 0.06), transparent);
+  z-index: 100;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+/* CRT glow effect on body - terminal mode only */
+[data-aesthetic="terminal"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, hsl(220 16% 4% / 0.4) 100%);
+  pointer-events: none;
+  z-index: 90;
+}
+
+/* Basic mode - no body pseudo-elements */
+[data-aesthetic="basic"] body::before,
+[data-aesthetic="basic"] body::after {
+  display: none;
+}
+
+/* Fade in */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+.animate-delay-700 { animation-delay: 700ms; }
+.animate-delay-800 { animation-delay: 800ms; }
+
+/* Selection color - terminal mode */
+[data-aesthetic="terminal"] ::selection {
+  background: hsl(120 40% 60% / 0.3);
+  color: hsl(120 40% 90%);
+}
+
+/* Selection color - basic mode */
+[data-aesthetic="basic"] ::selection {
+  background: hsl(210 100% 50% / 0.2);
+  color: inherit;
+}
+
+/* Scrollbar - terminal mode */
+[data-aesthetic="terminal"] ::-webkit-scrollbar {
+  width: 6px;
+}
+[data-aesthetic="terminal"] ::-webkit-scrollbar-track {
+  background: hsl(220 16% 8%);
+}
+[data-aesthetic="terminal"] ::-webkit-scrollbar-thumb {
+  background: hsl(220 14% 22%);
+  border-radius: 3px;
+}
+[data-aesthetic="terminal"] ::-webkit-scrollbar-thumb:hover {
+  background: hsl(120 40% 30%);
+}
+
+/* Scrollbar - basic mode uses system default */
+
+/* Glow text - terminal mode only */
+[data-aesthetic="terminal"] .text-glow {
+  text-shadow: 0 0 10px hsl(120 40% 60% / 0.3), 0 0 20px hsl(120 40% 60% / 0.1);
+}
+
+[data-aesthetic="terminal"] .text-glow-amber {
+  text-shadow: 0 0 10px hsl(36 90% 55% / 0.3), 0 0 20px hsl(36 90% 55% / 0.1);
+}
+
+/* No glow in basic mode */
+[data-aesthetic="basic"] .text-glow,
+[data-aesthetic="basic"] .text-glow-amber {
+  text-shadow: none;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Font switching */
+[data-aesthetic="terminal"] body {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+[data-aesthetic="basic"] body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Basic mode specific overrides */
+[data-aesthetic="basic"] .font-mono {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
