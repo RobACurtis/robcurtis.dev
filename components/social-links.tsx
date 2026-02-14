@@ -47,18 +47,25 @@ export function SocialLinks({ size = "md", showLabels = true, className }: Socia
 
   return (
     <div className={cn("flex items-center gap-4", className)}>
-      {socialLinks.map((link) => (
-        <a
-          key={link.label}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
-        >
-          <link.icon className={iconSize} />
-          {showLabels && <span className={textSize}>{link.label}</span>}
-        </a>
-      ))}
+      {socialLinks.map((link) => {
+        const isResume = link.label === "Resume"
+        return (
+          <a
+            key={link.label}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
+          >
+            <link.icon className={iconSize} />
+            {showLabels && (
+              <span className={cn(textSize, !isResume && "hidden sm:inline")}>
+                {link.label}
+              </span>
+            )}
+          </a>
+        )
+      })}
     </div>
   )
 }
